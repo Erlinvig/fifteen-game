@@ -1,6 +1,6 @@
 # fifteen-game
 
-> My pioneering Nuxt.js project
+> Heroku: https://fifteen-game-app.herokuapp.com/
 
 ## Build Setup
 
