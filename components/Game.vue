@@ -75,51 +75,33 @@
     },
     methods: {
       step(index) {
-        let lineSize = Math.sqrt(this.items.length);
+        let isUpLine = index < this.lineSize;
+        let isDownLine = index > this.items.length - this.lineSize - 1;
+        let isRightLine = index % this.lineSize === 0;
+        let isLeftLine = index % this.lineSize === this.lineSize-1;
 
-        let isStart = index === 0;
-        let isEnd = index === this.items.length - 1;
-        let isUpLine = index < lineSize;
-        let isDownLine = index > this.items.length - lineSize - 1;
+        let x1 = !isRightLine
+          ? this.items[index - 1].value === 0 ? -1 : 0
+          : 0;
 
-        let isRightLine = index % lineSize === 0;
-        let isLeftLine = index % lineSize === lineSize-1;
+        let x2 = !isLeftLine
+          ? this.items[index + 1].value === 0 ? 1 : 0
+          : 0;
 
-        if (!isEnd && !isLeftLine) {
-          if (this.items[index + 1].value === 0) {
-            this.items[index + 1].value = this.items[index].value;
-            this.items[index].value = 0;
+        let y1 = !isUpLine
+          ? this.items[index - this.lineSize].value === 0 ? -this.lineSize : 0
+          : 0;
 
-            this.amountStep++;
-          }
-        }
+        let y2 = !isDownLine
+          ? this.items[index + this.lineSize].value === 0 ? this.lineSize : 0
+          : 0;
 
-        if (!isStart && !isRightLine) {
-          if (this.items[index - 1].value === 0) {
-            this.items[index - 1].value = this.items[index].value;
-            this.items[index].value = 0;
+        let dxy = x1 + x2 + y1 + y2;
 
-            this.amountStep++;
-          }
-        }
+        let temp = this.items[index].value;
+        this.items[index].value = 0;
+        this.items[index + dxy].value = temp;
 
-        if (!isUpLine) {
-          if (this.items[index - lineSize].value === 0) {
-            this.items[index - lineSize].value = this.items[index].value;
-            this.items[index].value = 0;
-
-            this.amountStep++;
-          }
-        }
-
-        if (!isDownLine) {
-          if (this.items[index + lineSize].value === 0) {
-            this.items[index + lineSize].value = this.items[index].value;
-            this.items[index].value = 0;
-
-            this.amountStep++;
-          }
-        }
         this.checkOnVictory()
       },
 
