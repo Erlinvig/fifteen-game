@@ -33,7 +33,7 @@
         v-for="(item, index) in getItems"
         v-bind:key="item.value"
         class="list-complete-item"
-        :style="{width: `${100/getLineSize}%`, height: `${350 / getLineSize}px`}"
+        :style="{width: widthCell, height: heightCell}"
       >
         <button
           v-if="item.value !== 0"
@@ -78,7 +78,7 @@
         let isUpLine = index < this.lineSize;
         let isDownLine = index > this.items.length - this.lineSize - 1;
         let isRightLine = index % this.lineSize === 0;
-        let isLeftLine = index % this.lineSize === this.lineSize-1;
+        let isLeftLine = index % this.lineSize === this.lineSize - 1;
 
         let x1 = !isRightLine
           ? this.items[index - 1].value === 0 ? -1 : 0
@@ -149,6 +149,14 @@
       }
     },
     computed: {
+      widthCell() {
+        let widthGameField = 100;
+        return `${widthGameField / this.lineSize}%`
+      },
+      heightCell() {
+        let heightGameField = 350;
+        return `${heightGameField / this.lineSize}px`
+      },
       getItems() {
         return this.items
       },
